@@ -4,16 +4,16 @@
   "description": "Aplicação para gerenciar pedidos de um restaurante",
   "main": "app.js",
   "scripts": {
-  "start": "node app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "mysql2": "^3.11.0",
     "sequelize": "^6.37.3"
   },
   "author": "Matheus_Freitas",
   "license": "MIT"
- }
- 
- 
+}
