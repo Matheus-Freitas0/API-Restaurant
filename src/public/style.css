@@ -53,7 +53,6 @@ h2 {
     box-shadow: none;
 }
 
-/* Button Styling */
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
@@ -65,7 +64,6 @@ h2 {
     border-color: #0056b3;
 }
 
-/* Layout Tweaks */
 .container {
     margin-top: 20px;
 }
