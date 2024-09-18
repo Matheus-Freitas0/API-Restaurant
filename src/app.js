@@ -5,7 +5,7 @@ const pedidosRouter = require('./routes/pedidos')
 const app = express()
 const port = 3000
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.set('view engine', 'ejs')
