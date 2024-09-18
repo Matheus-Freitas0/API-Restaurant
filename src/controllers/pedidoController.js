@@ -1,3 +1,4 @@
+const { where } = require('sequelize')
 const Pedido = require('../models/pedido')
 
 class PedidoController {
@@ -34,6 +35,26 @@ class PedidoController {
 
         } catch (error) {
             res.status(500).json({ error: error.message })
+        }
+    }
+
+    async concluirPedido(req, res) {
+        const id = req.params.id;
+        const { status } = req.body;
+    
+        try {
+            const pedido = await Pedido.findByPk(id);
+            
+            if (!pedido) {
+                return res.status(404).json({ error: 'Pedido não encontrado' });
+            }
+            
+            await pedido.update({ status });
+            
+            res.json({ message: 'Pedido atualizado com sucesso' });
+        } 
+        catch (error) {
+            res.status(500).json({ error: error.message });
         }
     }
 }
