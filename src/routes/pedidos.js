@@ -8,4 +8,6 @@ router.post("/", pedidoController.createPedido);
 
 router.post("/:id/excluir", pedidoController.deletePedido);
 
+router.post("/:id/concluir", pedidoController.concluirPedido);
+
 module.exports = router;
