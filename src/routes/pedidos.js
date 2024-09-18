@@ -1,9 +1,11 @@
-const express = require("express")
-const pedidoController = require("../controllers/pedidoController")
-const router = express.Router()
-router.get("/", (req, res) => pedidoController.getAllPedidos
-(req, res))
-router.post("/", (req, res) => pedidoController.createPedido
-(req, res))
+const express = require("express");
+const pedidoController = require("../controllers/pedidoController");
+const router = express.Router();
 
-module.exports = router
+router.get("/", pedidoController.getAllPedidos);
+
+router.post("/", pedidoController.createPedido);
+
+router.post("/:id/excluir", pedidoController.deletePedido);
+
+module.exports = router;
