@@ -35,6 +35,7 @@
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Cliente</th>
+                <th scope="col">Pedido</th>
                 <th scope="col">Total</th>
                 <th scope="col">Status</th>
                 <th scope="col">Ações</th>
@@ -43,15 +44,14 @@
 
             <tbody>
               <% pedidos.forEach((pedido) => { %>
-                <tr>
+                <tr id="pedido-<%= pedido.id %>">
                   <td><%= pedido.id %></td>
-                  <td><%= pedido.cliente %></td>
-                  <td>R$ <%= pedido.total.toFixed(2) %></td>
-                  <td><%= pedido.status %></td>
+                  <td id="cliente-<%= pedido.id %>"><%= pedido.cliente %></td>
+                  <td id="itens-<%= pedido.id %>"><%= pedido.itens %></td>
+                  <td id="total-<%= pedido.id %>">R$ <%= pedido.total.toFixed(2) %></td>
+                  <td id="status-<%= pedido.id %>"><%= pedido.status %></td>
                   <td>
-                    <form action="/pedidos/<%= pedido.id %>/editar" method="POST" style="display: inline;">
-                      <button type="submit" class="btn btn-primary">Editar</button>
-                    </form>                    
+                    <button class="btn btn-primary btn-sm" onclick="toggleEdit(<%= pedido.id %>)">Editar</button>
                     <form action="/pedidos/<%= pedido.id %>/excluir" method="POST" style="display: inline;">
                       <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                     </form>
@@ -61,6 +61,21 @@
                         <button type="submit" class="btn btn-success btn-sm">Concluir</button>
                       </form>
                     <% } %>
+                  </td>
+                </tr>
+
+                <tr id="edit-form-<%= pedido.id %>" style="display: none;">
+                  <td><%= pedido.id %></td>
+                  <td>
+                    <input type="text" class="form-control" id="edit-cliente-<%= pedido.id %>" value="<%= pedido.cliente %>">
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" id="edit-total-<%= pedido.id %>" value="<%= pedido.total %>" step="0.01">
+                  </td>
+                  <td><%= pedido.status %></td>
+                  <td>
+                    <button class="btn btn-success btn-sm" onclick="saveEdit(<%= pedido.id %>)">Salvar</button>
+                    <button class="btn btn-secondary btn-sm" onclick="cancelEdit(<%= pedido.id %>)">Cancelar</button>
                   </td>
                 </tr>
               <% }); %>
@@ -82,6 +97,7 @@
                 aria-label="Nome do cliente"
                 required />
             </div>
+            
             <div class="form-group mb-3">
               <label for="itens">Itens:</label>
               <textarea
@@ -92,6 +108,7 @@
                 aria-label="Itens do pedido"
                 required></textarea>
             </div>
+            
             <div class="form-group mb-3">
               <label for="total">Total (R$):</label>
               <input
@@ -104,19 +121,54 @@
                 aria-label="Valor total do pedido"
                 required />
             </div>
+            
             <button type="submit" class="btn btn-primary">Criar Pedido</button>
+          
           </form>
         </div>
       </div>
     </div>
 
+    <script>
+      function toggleEdit(id) {
+        document.getElementById(`pedido-${id}`).style.display = 'none';
+        document.getElementById(`edit-form-${id}`).style.display = 'table-row';
+      }
+
+      function cancelarEdit(id) {
+        document.getElementById(`pedido-${id}`).style.display = '';
+        document.getElementById(`edit-form-${id}`).style.display = 'none';
+      }
+
+      async function saveEdit(id) {
+        const cliente = document.getElementById(`edit-cliente-${id}`).value;
+        const total = document.getElementById(`edit-total-${id}`).value;
+
+        const response = await fetch(`/pedidos/${id}/editar`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ cliente, total })
+        });
+
+        if (response.ok) {
+          location.reload(); 
+        } else {
+          alert('Erro ao salvar a edição.');
+        }
+      }
+    </script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
       crossorigin="anonymous"></script>
-    <script
+    
+      <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"></script>
+
   </body>
 </html>

@@ -12,4 +12,6 @@ router.post("/:id/concluir", pedidoController.concluirPedido);
 
 router.post("/:id/editar", pedidoController.editPedido);
 
+router.get("/:id/editar", pedidoController.renderEditForm);
+
 module.exports = router;
