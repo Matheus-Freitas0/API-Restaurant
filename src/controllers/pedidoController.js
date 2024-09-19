@@ -1,4 +1,3 @@
-const { where } = require('sequelize')
 const Pedido = require('../models/pedido')
 
 class PedidoController {
