@@ -54,6 +54,23 @@ class PedidoController {
         }
     }
 
+    async editPedido(req, res) {
+        const id = req.params.id
+        const { cliente, itens, total } = req.body
+
+        try {
+            const pedido = await Pedido.findByPk(id)
+            if (!pedido) {
+                return res.status(404).json({ error: 'Pedido não encontrado' })
+            }
+            await pedido.update({ cliente, itens, total })
+            res.redirect('/pedidos')
+        
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+
+        }
+    }
 
 }
 module.exports = new PedidoController()
