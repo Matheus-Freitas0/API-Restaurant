@@ -38,22 +38,22 @@ class PedidoController {
         }
     }
 
-async concluirPedido(req, res) {
-    const id = req.params.id;
+    async concluirPedido(req, res) {
+        const id = req.params.id;
 
-    try {
-        const pedido = await Pedido.findByPk(id);
-        if (!pedido) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+        try {
+            const pedido = await Pedido.findByPk(id);
+            if (!pedido) {
+                return res.status(404).json({ error: 'Pedido não encontrado' });
+            }
+
+            await pedido.update({ status: 'Concluído' });
+
+            res.redirect('/pedidos');
+        } catch (error) {
+            console.error('Erro ao concluir pedido:', error);
         }
-        
-        await pedido.update({ status: 'Concluído' });
-        
-        res.redirect('/pedidos');
-    } catch (error) {
-        console.error('Erro ao concluir pedido:', error); 
     }
-}
 
 
 }
