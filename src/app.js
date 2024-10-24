@@ -19,7 +19,7 @@ sequelize.sync()
     .then(() => {
         console.log('Banco de dados sincronizado')
         app.listen(port, () => {
-            console.log(`Servidor rodando em <http://localhost>:${port}`)
+            console.log(`Servidor rodando em http://localhost:${port}`)
         })
     })
     .catch(err => console.error('Erro ao sincronizar banco de dados:', err))
